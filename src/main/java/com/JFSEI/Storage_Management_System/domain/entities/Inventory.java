@@ -35,6 +35,7 @@ public class Inventory {
     mappedBy = "inventory",
     cascade = CascadeType.ALL)
     private List<Check_in> check_in;
+
     @OneToMany(fetch = FetchType.EAGER,
             mappedBy = "inventory",
             cascade = CascadeType.ALL)

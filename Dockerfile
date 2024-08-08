@@ -5,7 +5,7 @@ FROM amazoncorretto:18-alpine-jdk
 WORKDIR /app
 
 # Copia el archivo JAR de tu aplicación al contenedor
-COPY target/Storage_Management_System-0.0.1-SNAPSHOT.jar app.jar
+COPY target/StorageManagementSystem-0.0.2-SNAPSHOT.jar app.jar
 
 # Expone el puerto en el que tu aplicación se ejecutará
 EXPOSE 8080

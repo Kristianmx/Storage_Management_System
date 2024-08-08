@@ -28,6 +28,9 @@ public class OutputRecord {
     @Column(nullable = false)
     private String projectName;
 
+    @Column(nullable = false)
+    private Boolean status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inventoryOutput_id",referencedColumnName = "id")
     private Inventory inventory;

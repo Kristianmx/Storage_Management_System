@@ -57,10 +57,13 @@ public class InventoryService implements IInventoryService {
         checkin.setIncomingQuantity(inventory.getQuantity());
         checkin.setInventory(inventory);
         checkin.setDelivery("JF SEI");
+        checkin.setStatus(true);
+        checkin.setObservation("*");
 
         List<Check_in> checkins = new ArrayList<>();
         checkins.add(this.checkinRepository.save(checkin));
         inventory.setCheck_in(checkins);
+        inventory.setOutputRecords(new ArrayList<>());
 
 
         return  this.inventoryMapper.toResponse(inventory);

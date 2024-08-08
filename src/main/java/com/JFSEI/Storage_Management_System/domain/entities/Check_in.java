@@ -25,7 +25,13 @@ public class Check_in {
     @Column(nullable = false)
     private String delivery;
 
+    @Column(nullable = false)
+    private Boolean status;
+
+    @Column(columnDefinition = "TEXT")
+    private String observation;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "inventory_id",referencedColumnName = "id")
+    @JoinColumn(name = "checkInventory_id",referencedColumnName = "id")
     private Inventory inventory;
 }

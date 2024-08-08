@@ -12,10 +12,12 @@ import lombok.*;
 public class OutputRecordRequest {
     @NotNull(message = "outputQuantity is required")
     private  Integer outputQuantity;
-    @NotNull(message = "Inventory name is required")
+    @NotNull(message = "Inventory is required")
     private  Long idInventory;
     @NotBlank(message = "delivered is required")
     private String delivered;
     @NotBlank(message = "ProjectName is required")
     private String projectName;
+    @NotNull(message = "condition  is required")
+    private Boolean status;
 }

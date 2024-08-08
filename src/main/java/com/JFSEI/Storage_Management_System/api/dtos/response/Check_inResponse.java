@@ -14,5 +14,7 @@ public class Check_inResponse {
     private LocalDateTime entryDate;
     private Integer incomingQuantity;
     private String delivery;
+    private Boolean status;
+    private String observation;
 
 }

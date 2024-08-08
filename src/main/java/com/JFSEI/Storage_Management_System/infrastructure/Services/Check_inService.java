@@ -38,7 +38,9 @@ public class Check_inService implements ICheck_inService {
         checkin.setEntryDate(LocalDateTime.now());
         Inventory inventory =this.inventorySupport.findById(inventoryRepository,batchRequest.getIdInventory(),"inventory");
         checkin.setInventory(inventory);
-
+//        if (checkin.getObservation()==null){
+//            checkin.setObservation(" ");
+//        }
         checkin = this.check_inRepository.save(checkin);
         if (checkin.getId()!=null){
             inventory.setQuantity(inventory.getQuantity()+ checkin.getIncomingQuantity());

@@ -15,4 +15,5 @@ public class OutputRecordResponse {
     private  Integer outputQuantity;
     private String  delivered;
     private String projectName;
+    private Boolean status;
 }

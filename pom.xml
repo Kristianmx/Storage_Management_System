@@ -8,9 +8,9 @@
 		<version>3.3.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.JFSEI</groupId>
-	<artifactId>Storage_Management_System</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>JFSEI</groupId>
+	<artifactId>StorageManagementSystem</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>Storage_Management_System</name>
 	<description>JF SEI Inventory Management Application</description>
 	<url/>
@@ -127,7 +127,8 @@
 	<distributionManagement>
 		<repository>
 			<id>remote-repo</id>
-			<url>https://github.com/Kristianmx/Storage_Management_System.git</url>
+			<name>GitHub Packages</name>
+			<url>https://maven.pkg.github.com/Kristianmx/Deploy-JF-SEI</url>
 		</repository>
 	</distributionManagement>
 
