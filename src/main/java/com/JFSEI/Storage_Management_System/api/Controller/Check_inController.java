@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/Check_in")
 @Tag(name= "Check_in")
@@ -60,5 +62,15 @@ public class Check_inController {
     @PutMapping(path = "/{id}")
     public ResponseEntity<Check_inResponse> update(@RequestBody @Validated Check_inRequest request, @PathVariable  Long id) {
         return ResponseEntity.ok( this.batchService.update(id,request));
+    }
+
+    @Operation(
+
+            summary = "All Check_in ",
+            description = "brings all current checks"
+    )
+    @GetMapping
+    public ResponseEntity<List <Check_inResponse>>readAll() {
+        return ResponseEntity.ok(this.batchService.getAll());
     }
 }

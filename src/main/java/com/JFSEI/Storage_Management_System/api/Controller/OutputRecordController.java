@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/outputRecord")
 @Tag(name= "OutputRecord")
@@ -60,5 +62,15 @@ public class OutputRecordController {
     @PutMapping(path = "/{id}")
     public ResponseEntity<OutputRecordResponse> update(@RequestBody @Validated OutputRecordRequest request , @PathVariable Long id ){
         return ResponseEntity.ok(this.outputService.update(id,request));
+    }
+
+    @Operation(
+
+            summary = "All outputRecord ",
+            description = "fetch all current outputRecords"
+    )
+    @GetMapping
+    public ResponseEntity<List< OutputRecordResponse>> readAll(){
+        return ResponseEntity.ok(this.outputService.getAll());
     }
 }
