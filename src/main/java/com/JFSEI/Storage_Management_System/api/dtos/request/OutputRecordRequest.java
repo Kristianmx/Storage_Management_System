@@ -20,4 +20,6 @@ public class OutputRecordRequest {
     private String projectName;
     @NotNull(message = "condition  is required")
     private Boolean status;
+
+    private String observation;
 }

@@ -31,6 +31,9 @@ public class OutputRecord {
     @Column(nullable = false)
     private Boolean status;
 
+    @Column(columnDefinition = "TEXT")
+    private String observation;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inventoryOutput_id",referencedColumnName = "id")
     private Inventory inventory;

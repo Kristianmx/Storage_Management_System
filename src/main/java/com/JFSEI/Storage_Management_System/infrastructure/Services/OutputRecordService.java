@@ -39,6 +39,7 @@ public class OutputRecordService implements IOutputService {
         if (inventory.getQuantity()-outputRecord.getOutputQuantity() <0){
             throw new BadRequestException("the amount cannot be negative");
         }
+
         inventory.setQuantity(inventory.getQuantity()-outputRecord.getOutputQuantity());
         this.inventoryRepository.save(inventory);
 
