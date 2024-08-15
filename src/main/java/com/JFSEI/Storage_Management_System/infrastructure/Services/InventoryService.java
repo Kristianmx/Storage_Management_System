@@ -84,7 +84,18 @@ public class InventoryService implements IInventoryService {
     @Override
     public InventoryResponse update(Long aLong, InventoryRequest inventoryRequest) {
         Inventory inventory =this.supportInventory.findById(this.inventoryRepository,aLong,"Inventory");
-        BeanUtils.copyProperties(inventory,inventoryRequest);
+        if (inventoryRequest.getQuantity() != inventory.getQuantity()){
+            if (inventory.getCheck_in().size()==1) {
+                inventory.getCheck_in().forEach(checkIn -> {
+                        if (checkIn.getIncomingQuantity()==inventory.getQuantity()){
+                            checkIn.setIncomingQuantity(inventoryRequest.getQuantity());
+                            this.checkinRepository.save(checkIn);
+                        }
+                });
+            }
+        }
+
+        BeanUtils.copyProperties(inventoryRequest,inventory);
         return this.inventoryMapper.toResponse(this.inventoryRepository.save(inventory));
     }
 
