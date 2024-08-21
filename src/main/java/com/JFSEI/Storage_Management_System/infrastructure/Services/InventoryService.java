@@ -12,10 +12,8 @@ import com.JFSEI.Storage_Management_System.infrastructure.abstract_services.IInv
 import com.JFSEI.Storage_Management_System.infrastructure.helpers.SupportService;
 import com.JFSEI.Storage_Management_System.infrastructure.helpers.mappers.InventoryMapper;
 import lombok.AllArgsConstructor;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,38 +110,115 @@ public class InventoryService implements IInventoryService {
         List<Inventory> inventories =this.inventoryRepository.findAll();
         try(Workbook workbook= new XSSFWorkbook()){
             Sheet sheet = workbook.createSheet("Inventory");
-            Row header = sheet.createRow(0);
-            header.createCell(0).setCellValue("ID");
-            header.createCell(1).setCellValue("Name");
-            header.createCell(2).setCellValue("reference");
-            header.createCell(3).setCellValue("description");
-            header.createCell(4).setCellValue("status");
-            header.createCell(5).setCellValue("quantity");
-            header.createCell(6).setCellValue("check_in");
-            header.createCell(7).setCellValue("outputRecord");
-            int rowIdx =1;
+            CellStyle style = workbook.createCellStyle();
+            style.setWrapText(true);
+            style.setAlignment(HorizontalAlignment.CENTER);
+            style.setVerticalAlignment(VerticalAlignment.CENTER);
+            Font greenFont = workbook.createFont();
+            greenFont.setColor(IndexedColors.GREEN.getIndex());
+
+            CellStyle greenTextStyle = workbook.createCellStyle();
+            greenTextStyle.setWrapText(true);
+            greenTextStyle.setAlignment(HorizontalAlignment.CENTER);
+            greenTextStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+            greenTextStyle.setFont(greenFont);
+            greenTextStyle.setWrapText(true);
+            for (int i = 1; i <= 3; i++) {
+                Row header = sheet.createRow(i-1);
+
+                if (i==1){
+                    sheet.addMergedRegion(new CellRangeAddress(i - 1, i - 1, 0, 5));
+                    Cell cell = header.createCell(0);
+                    cell.setCellValue("Nota :    En este excel no debe de tener casillas sin contenido exceptuando la columna (ID),  en caso de no tener contenido  colocar: Para  casillas de texto ( N/A )  ---- Para casillas  numericas o decimales ( 0 )  Se pueden agregar mas columnas  para ello:    La primera letra debe de ser mayuscula  Y  No debe llevar acento  \"Descripción\" \" Descripcion\"     Si necesita asistencia contactar con quien le paso este formato");
+                    cell.setCellStyle(style);
+                    header.setHeightInPoints(80);
+
+
+                } else if (i==2) {
+                    Cell cell0 = header.createCell(0);
+                    cell0.setCellValue("Este campo no se rellena.");
+                    cell0.setCellStyle(style);
+
+                    Cell cell1 = header.createCell(1);
+                    cell1.setCellValue("El nombre es obligatorio");
+                    cell1.setCellStyle(style);
+
+                    Cell cell2 = header.createCell(2);
+                    cell2.setCellValue("En caso de no tener referercia. Colocar ( N/A )");
+                    cell2.setCellStyle(style);
+
+                    Cell cell3 = header.createCell(3);
+                    cell3.setCellValue("En caso de no tener Descripción. Colocar ( N/A )");
+                    cell3.setCellStyle(style);
+
+                    Cell cell4 = header.createCell(4);
+                    cell4.setCellValue("El estado no se rellena");
+                    cell4.setCellStyle(style);
+
+                    Cell cell5 = header.createCell(5);
+                    cell5.setCellValue("En caso de no tener Precio. Colocar ( 0 )");
+                    cell5.setCellStyle(style);
+
+                } else {
+                    Cell cell0 = header.createCell(0);
+                    cell0.setCellValue("ID");
+                    cell0.setCellStyle(greenTextStyle);
+
+                    Cell cell1 = header.createCell(1);
+                    cell1.setCellValue("Name");
+                    cell1.setCellStyle(greenTextStyle);
+
+                    Cell cell2 = header.createCell(2);
+                    cell2.setCellValue("reference");
+                    cell2.setCellStyle(greenTextStyle);
+
+                    Cell cell3 = header.createCell(3);
+                    cell3.setCellValue("description");
+                    cell3.setCellStyle(greenTextStyle);
+
+                    Cell cell4 = header.createCell(4);
+                    cell4.setCellValue("status");
+                    cell4.setCellStyle(greenTextStyle);
+
+                    Cell cell5 = header.createCell(5);
+                    cell5.setCellValue("quantity");
+                    cell5.setCellStyle(greenTextStyle);
+                }
+
+            }
+            for (int colIdx = 0; colIdx < 6; colIdx++) {
+                sheet.setColumnWidth(colIdx, 4000); //
+            }
+
+            int rowIdx =3;
             for (Inventory inventory : inventories){
                 Row row = sheet.createRow(rowIdx++);
-                row.createCell(0).setCellValue(inventory.getId());
-                row.createCell(1).setCellValue(inventory.getName());
-                row.createCell(2).setCellValue(inventory.getReference());
-                row.createCell(3).setCellValue(inventory.getDescription());
-                row.createCell(4).setCellValue(inventory.getStatus());
-                row.createCell(5).setCellValue(inventory.getQuantity());
-                  String batch;
-                StringBuilder batchBuilder = new StringBuilder();
-                inventory.getCheck_in().forEach(i->{
-                    batchBuilder.append( i.getEntryDate()).append(",").append(i.getIncomingQuantity()).append("/");
-                });
-                    batch = batchBuilder.toString();
-                row.createCell(6).setCellValue(batch);
-                String outputRecords;
-                StringBuilder outputRecordsBuilder = new StringBuilder();
-                inventory.getOutputRecords().forEach(i->{
-                    outputRecordsBuilder.append( i.getOutputDate()).append(",").append(i.getOutputQuantity()).append("/");
-                });
-                outputRecords = outputRecordsBuilder.toString();
-                row.createCell(7).setCellValue(outputRecords);
+                row.setHeightInPoints(20); // Ajustar la altura de la fila
+
+                Cell cell0 = row.createCell(0);
+                cell0.setCellValue(inventory.getId());
+                cell0.setCellStyle(style);
+
+                Cell cell1 = row.createCell(1);
+                cell1.setCellValue(inventory.getName());
+                cell1.setCellStyle(style);
+
+                Cell cell2 = row.createCell(2);
+                cell2.setCellValue(inventory.getReference());
+                cell2.setCellStyle(style);
+
+                Cell cell3 = row.createCell(3);
+                cell3.setCellValue(inventory.getDescription());
+                cell3.setCellStyle(style);
+
+                Cell cell4 = row.createCell(4);
+                cell4.setCellValue(inventory.getStatus());
+                cell4.setCellStyle(style);
+
+                Cell cell5 = row.createCell(5);
+                cell5.setCellValue(inventory.getQuantity());
+                cell5.setCellStyle(style);
+
             }
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             workbook.write(out);
@@ -161,45 +236,42 @@ public class InventoryService implements IInventoryService {
             int conta=0;
             while (rowIterator.hasNext()){
                 Row row = rowIterator.next();
-                Cell[] info = new Cell[8];
+                Cell[] info = new Cell[6];
                 Inventory inventory = new Inventory();
                 if (conta!=0 && conta!=1 && conta!=2){
-                    for (int ite =0;ite <8;ite++){
+                    for (int ite =0;ite <6;ite++){
                         info[ite]=row.getCell(ite);
                     }
                     inventory.setName(info[1].getStringCellValue());
                     inventory.setReference(info[2].getStringCellValue());
                     inventory.setDescription(info[3].getStringCellValue());
-                    inventory.setStatus(info[4].getBooleanCellValue());
-                    inventory.setQuantity(info[5].getColumnIndex());
-                    inventory= this.inventoryRepository.save(inventory);
-                    String[] partBySlash= info[6].getStringCellValue().split("/");
-                    int batchs = 0;
-                    for(String part: partBySlash){
-                        String[] subpart = part.split(",");
-                        Check_in checkin = new Check_in();
-                        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-                        checkin.setEntryDate(LocalDateTime.parse(subpart[0],formatter));
-                        checkin.setIncomingQuantity(Integer.parseInt(subpart[1]));
-                        batchs+=Integer.parseInt(subpart[1]);
-                        checkin.setInventory(inventory);
-                        this.checkinRepository.save(checkin);
 
+
+                    if (info[4] ==null){
+                        inventory.setStatus(true);
+                    }else {
+                        inventory.setStatus(info[4].getBooleanCellValue());
                     }
-                    String[] OutPart= info[7].getStringCellValue().split("/");
-                    int out=0;
-                    for(String part: OutPart){
-                        String[] subpart = part.split(",");
-                        OutputRecord outputRecord = new OutputRecord();
-                        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-                        outputRecord.setOutputDate(LocalDateTime.parse(subpart[0],formatter));
-                        out+=Integer.parseInt(subpart[1]);
-                        outputRecord.setInventory(inventory);
-                        outputRecord.setOutputQuantity(Integer.parseInt(subpart[1]));
-                        this.outputRecordRepository.save(outputRecord);
+
+                    inventory.setQuantity((int)
+                            info[5].getNumericCellValue());
+                    inventory.setOutputRecords(new ArrayList<>());
+                    inventory.setCheck_in(new ArrayList<>());
+                    List<Check_in> checkInList =new ArrayList<>();
+                    inventory= this.inventoryRepository.save(inventory);
+                    if (inventory.getId()!=null){
+                        Check_in checkin = new Check_in();
+                        checkin.setEntryDate(LocalDateTime.now());
+                        checkin.setIncomingQuantity(inventory.getQuantity());
+                        checkin.setInventory(inventory);
+                        checkin.setDelivery("JF SEI");
+                        checkin.setStatus(true);
+                        checkin.setObservation("*");
+                        this.checkinRepository.save(checkin);
+                        checkInList.add(checkin);
                     }
-                    inventory.setQuantity(batchs-out);
-                    inventoryList.add(this.inventoryRepository.save(inventory));
+                    inventory.setCheck_in(checkInList);
+                inventoryList.add(inventory);
                 }
                 conta++;
             }
