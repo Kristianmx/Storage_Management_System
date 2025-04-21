@@ -264,7 +264,7 @@ public class InventoryService implements IInventoryService {
                         checkin.setEntryDate(LocalDateTime.now());
                         checkin.setIncomingQuantity(inventory.getQuantity());
                         checkin.setInventory(inventory);
-                        checkin.setDelivery("JF SEI");
+                        checkin.setDelivery("GPI");
                         checkin.setStatus(true);
                         checkin.setObservation("*");
                         this.checkinRepository.save(checkin);
