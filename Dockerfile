@@ -8,7 +8,7 @@ WORKDIR /app
 COPY target/StorageManagementSystem-0.0.2-SNAPSHOT.jar app.jar
 
 # Expone el puerto en el que tu aplicación se ejecutará
-EXPOSE 8080
+EXPOSE 8083
 
 # Comando para ejecutar la aplicación
 ENTRYPOINT ["java", "-jar", "app.jar"]
